@@ -1,0 +1,17 @@
+name: catalyst
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+  - typer
+  - loguru
+  - tqdm
+  - black
+  - flake8
+  - isort
+  - pytest
+  - pip:
+    - python-dotenv
+    - mkdocs
+    - -e .
