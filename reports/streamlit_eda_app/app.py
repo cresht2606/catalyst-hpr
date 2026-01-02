@@ -342,15 +342,24 @@ monthly_counts = danang_df.groupby("date").size()
 st.markdown(
     """
     <h2><center> 🏠 📃 Rental & Buying Properties – The Real Estate Tyrone In 21st Century 💸 🍃 </center></h2>
+
     <h4><center> From Raw Data To Analytic Insights: Predictive Reasoning & Empirical Data </center></h4>
+
     <p><b>Dataset Author:</b> Cresht. (2025). </p>
+
     <p><b>Official Source:</b> BatDongSanVN. 
     <a href="https://batdongsan.vn/" target="_blank">[Link]</a></p>
-    <p><b>Predecessors</b>:
+
+    <p><b> Launch Date:</b> September 19th, 2025 - Present (2026) </p>
+
+    <p><b>Successors</b>:
         <ul>
-            <li> Trung, T (2023). <i> Group 16 - House Price Prediction - 21KDL <i>. Github. <a href="https://github.com/TrungNotHot/House-Price-Prediction" target="_blank">[Repository]</a></li>
+            <li> Trung, T, Trung, L, Nghi, N & Hai, N. (2023). <i> Group 16 - House Price Prediction - 21KDL </i>. Github. <a href="https://github.com/TrungNotHot/House-Price-Prediction" target="_blank">[Repository]</a></li>
+            <li> Surjyanee. (2020). <i> Linear-Regression Model for House Price Prediction </i>. Github. <a href = "https://github.com/huzaifsayed/Linear-Regression-Model-for-House-Price-Prediction">[Repository]</a></li>
+            <li> Rishabh, T. (2022). <i> House Price Prediction </i>. Github. <a href = "https://github.com/Rishabh-Tripathi1/House-Price-Prediction"> [Repository]</a></li>
         </ul>
     </p>
+
     <p><b>EDA Revision & Extension:</b> Cresht </p>
     """,
     unsafe_allow_html=True
@@ -362,7 +371,10 @@ st.sidebar.header("📌 Navigation Panel")
 # Main section selector
 page = st.sidebar.selectbox(
     "Move to section:",
-    [
+    [   
+        "Abstract",
+        "Libraries",
+        "Data Pipeline",
         "Introduction",
         "Dataset Characteristics: Uniqueness & Challenges",
         "Categorical Features: Key Values & Insights",
@@ -375,11 +387,125 @@ page = st.sidebar.selectbox(
 )
 
 # Switch between sections and their subsections
-if page == "Introduction":
+if page == "Abstract":
+    st.markdown("### 🎨 Abstract 🌌", unsafe_allow_html=True)
+    st.markdown("""
+        <b>Housing demand</b>, especially among young people residing in major cities, has become a significant challenge. As individuals strive for stability and a comfortable environment, owning a home is often considered to be a key milestone. However, this objective can be difficult due to a variety of external and internal factors.
+
+        This struggle is particularly evident in what Jennifer, H. (2017) refers to as <b>"Generation Rent"</b>, a generation that:
+        - Has limited access to social housing and homeownership
+        - Is increasingly dependent on long-term rental sectors
+
+        Therefore, this analysis is designed to accomodate with the primary goals:
+        - Understand user preferences in housing attributes and settings
+        - Identify patterns and trends in the real estate market
+        - Provide insights and initial assumptions to better anticipate future marketplace behaviour.
+
+        <b> References </b>
+
+        - Jennifer, H., McKee, K., Tom, M., Adriana, M. (2017). *‘Generation Rent’ and the ability to ‘settle down’: economic and geographical variation in young people’s housing transitions*. Journal of Youth Studies, 20(1), 63–78. https://doi.org/10.1080/13676261.2016.1184241
+    """, unsafe_allow_html=True)
+
+elif page == "Libraries":
+    st.markdown("### 📚 Libraries 🔖", unsafe_allow_html=True)
+    code_str = textwrap.dedent("""
+        #========================== Backbone of the exploratory analysis ==========================
+        #Feature Engineering
+        import numpy as np
+        import pandas as pd
+        import seaborn as sns
+
+        #Visualisation
+        import matplotlib.pyplot as plt
+        import matplotlib.figure
+        import matplotlib.cm as cm
+
+        import plotly.express as px
+        import plotly.graph_objects as go
+        import plotly.io as pio
+        import plotly.figure_factory as ff
+        from plotly.subplots import make_subplots
+
+        # NLP
+        !pip install underthesea
+        from underthesea import word_tokenize
+        from wordcloud import WordCloud
+        from sklearn.feature_extraction.text import CountVectorizer
+
+        #========================== Miscellaneous ==========================
+        #Extension for multiple savestates
+        import sys, os, math, string, re
+
+        # Relative path import
+        from pathlib import Path
+
+        #Timeline estimation
+        from datetime import datetime, timedelta
+
+        #Mathematical operations
+        from math import ceil, pi
+
+        #Deprecation Warning Surpass
+        import warnings
+        warnings.filterwarnings('ignore')
+
+        #Aggregation
+        from functools import reduce
+        from collections import Counter
+
+        #Savestates graph
+        plot_all = {}
+    """)
+
+    st.code(code_str, language="python")
+
+elif page == "Data Pipeline":
+    st.markdown("### 🗃️ Data Pipeline 📦", unsafe_allow_html=True)
+    st.markdown("""
+        The processing system is built using the Strategy Pattern, where:
+        - Each preprocessing operation (encoding, scaling, imputing, etc.) is implemented as a strategy
+        - Strategies share a common interface (PreprocessingStrategy class)
+        - A pipeline (PreprocessingPipeline) orchestrates the applying order of these strategies
+
+        This design is specifically important so as to make preprocessing <b>modular, extensible</b> and <b>reproducible</b>, thereby guaranteeing object-oriented principles: Open/Closed Principle, Single Responsibility & Loose Coupling 
+    """, unsafe_allow_html=True)
+
+    code_str = textwrap.dedent("""
+        project_root = os.path.abspath(os.path.join(os.getcwd(), '..'))
+        src_path = os.path.join(project_root)
+
+        if src_path not in sys.path:
+            sys.path.append(src_path)
+
+        #Import necessary preprocessing features
+        from workarounds.preprocessing.feature_preprocessing.encoders.label_encoder import LabelEncoding
+        from workarounds.preprocessing.feature_preprocessing.encoders.target_encoder import TargetEncoding
+        from workarounds.preprocessing.feature_preprocessing.encoders.one_hot_encoder import OneHotEncoding
+        from workarounds.preprocessing.feature_preprocessing.scalers.minmax_scaler import MinMaxScaling
+        from workarounds.preprocessing.feature_preprocessing.scalers.standard_scaler import StandardScaling
+        from workarounds.preprocessing.feature_preprocessing.normalization.normalizer import Normalizing
+        from workarounds.preprocessing.feature_preprocessing.outliers.iqr_removal import IQRMethod
+        from workarounds.preprocessing.feature_preprocessing.outliers.zscore_removal import ZScoreMethod
+        from workarounds.preprocessing.feature_preprocessing.transformers.boxcox import BoxCoxTransformer
+        from workarounds.preprocessing.feature_preprocessing.transformers.yeo_johnson import YeoJohnsonTransformer
+        from workarounds.preprocessing.feature_preprocessing.pipeline import PreprocessingPipeline
+    """)
+
+    st.code(code_str, language="python")
+
+elif page == "Introduction":
+
+    st.markdown("### 📜 Introduction 🪶", unsafe_allow_html=True)
+    st.markdown("""
+        Preliminary procedures for scraping techniques involve using BeautifulSoup and asynchronous HTTP requests - responses. The process takes several days of setup, enhancement, trials and errors before constructing the complete dataset. 
+    """)
+
+    st.markdown("""
+        From a real estate perspective, the datasets (rental and buying) consist of approximately 4.8 and 67 thousands entities respectively and capture a wide range of influential features, including area size, number of bedrooms, bathrooms, floors and locational characteristics such as frontage positioning. Temporal attributes such as listing release dates, further enhance the dataset by allowing historical trend analysis, seasonal demand captures and price difference over time. 
+    """)
 
     st.write("### 📥 Load Data (Buying & Rental Properties)")
 
-    st.markdown("Below is the code used to load the raw datasets:")
 
     # Show code snippet (Comments)
     code_str = textwrap.dedent("""
@@ -417,15 +543,76 @@ if page == "Introduction":
         st.dataframe(rental_df.head())
 
 elif page == "Dataset Characteristics: Uniqueness & Challenges":
-    st.markdown("### Dataset Characteristics: Uniqueness & Challenges")
-    st.write("In this section, we will discuss the uniqueness of the dataset, "
-            "any challenges we encountered, and what makes it distinct.")
+    st.markdown("### 🚧 Dataset Characteristics: Uniqueness & Challenges 🚫", unsafe_allow_html=True)
+
+    st.markdown("#### 🌟 What Makes This Dataset Unique", unsafe_allow_html=True)
+
+    st.markdown("""
+        - Rich real estate attributes
+            - Each listing contains a unique ID and specific URL
+            - Helps in duplicated entity detection and record management
+        - Hierarchical location structure
+            - Location is organized by ward, district and province (city), later will be redefined as ward and province due to the following emergence in 2025.
+            - Enables spatial and regional analysis
+        - Informative listing headlines
+            - Headlines encode qualitative signals such as:
+                - Urgency (e.g. "Bán gấp")
+                - Exaggeration (e.g. "Giá cả rẻ bèo, hợp lí")
+                - Compromise on negotation senses
+            - These signals may implicitly reflect seller behaviour and market sentiment
+    """, unsafe_allow_html=True)
+
+    st.markdown("#### ⚠️ Key Challenges During Exploration", unsafe_allow_html=True)
+
+    st.markdown("""
+        Despite its strengths, the dataset still presents several difficulties:
+        - Missing / Null Values
+            - Common in core numerical features: Bedrooms, Bathrooms, Floors, which may bias model performance if not handled carefully.
+        - Title Format Inconsistencies
+            - Listing headlines show inconsistent formatting and mixed languages between Vietnamese and English
+            - Therefore, the complexity of NLP (Natural Language Processing) and feature extraction increases.
+        - Composite Attributes 
+            - Some features combine multiple pieces of administrative units and timeline-related attributes
+            - Require decomposition into multil-layer components for meaningful interpretation.
+        - Imbalanced Geographic Distribution 
+            - Listings are heavily concetrated on major provinces
+            - Smaller provinces are underrepresented
+            - Raises the risks of model overfitting and poor generalization.
+        - Price Scale & Unit Normalization 
+            - Prices are recorded into million VND
+            - Requires converting to billion VND to improve intepretability and stabilize model predictions.
+    """, unsafe_allow_html=True)
 
 elif page == "Categorical Features: Key Values & Insights":
-    st.markdown("### Categorical Features: Key Values & Insights")
-    st.write("Here, we discuss key categorical features in the dataset.")
+    st.markdown("### 🌱 Categorical Features: Key Values & Insights 🎋", unsafe_allow_html=True)
+    
+    st.markdown("""
+        The initial inspection of the dataset reveals several noticable patterns influence customer preferences and housing prices
+        - 💰 Key Factors Affecting Prices
+            - Frontage attribute shows a strong impact on price definition
+            - Location plays a pivotal role, with higher prices observed in major cities: Ha Noi, Ho Chi Minh City, Binh Duong, Da Nang
+        - 📝 Listing Title Characteristics
+            - Listing titles are generally short and concise
+            - Commonly include key property highlights and contact information
+            - Nevertheless, this structure is not completely consistent across all listings.
+        - 🏡 Buyer Attraction Signals
+        A surface-level analysis of descriptive suggests that the following features strongly attract potential buyers:
+            - Pleasant views
+            - Balconies
+            - Convenient or central locations
+            - Perceived affordability
+        - 👨‍👩‍👧‍👦 Household Preferences
+            - Most properties are designed for family-sized households
+            - Primary configurations include:
+                - 2 - 3 bedrooms, closely aligning with bathroom properties
+                - Atleast 2 floors, including ground floor accounted.
+        - 📉 Price Distribution Over Regions
+            - Listings belowed 2 million VND are extremely rare
+            - When such listings appear, they are typically situated in remote and less-developed areas.
+    """, unsafe_allow_html=True)
 
 elif page == "Static information":
+    st.markdown("### 📝 Static information 📒", unsafe_allow_html=True)
     sub_section = st.selectbox(
         "Choose subsection:",
         [
@@ -442,7 +629,33 @@ elif page == "Static information":
     # 1. SURFACE-LEVEL INSPECTION
     # ------------------------------------------------------------
     if sub_section == "Surface-level Inspection":
-        st.write("### 🧪 Surface-level Inspection")
+        st.markdown("### 🧪 Surface-level Inspection", unsafe_allow_html=True)
+
+        st.markdown("""
+            Both rental and buying datasets contain 7 numerical features, especially the identification and timeline hours which is being preserved in integer formats.
+            - 📊 Buying Dataset Description
+                - 🔢 Data Volume & Completeness
+                    - Most attributes have high coverages, particularly timeline_hours, area_m2 and price_million_vnd
+                    - Whereas some missing values remain in bedrooms, bathrooms, floors. Such gaps require careful preprocessing to avoid bias
+                - 🏗️ Property Characteristics
+                    - Area: The median value is around 60m2, while the extremely large values indicate the presence of outliers (e.g. compounds or data noise)
+                    - Bedrooms & Bathrooms: Median of 4 bedrooms and 3 bathrooms, suggesting a focus on family-sized or multi-generational housing
+                    - Floors: Most properties range between 3 and 6 floors, reflecting common country-side and urban housing structures.
+                - 💰 Price Distribution
+                    - Median price is approximately 7 million VND
+                    - This price distribution shows very wide dispersion and strong right skewness
+                    - Maximum values reach nearly 1 billion VND, subtly introducing the existence of luxurious or special-use listings
+            - 🏢 Rental Dataset Description
+                - 🔢 Data Volume & Completeness
+                    - Several attributes have significant missing values, notably area, bedrooms, bathrooms and floors, suggesting less standardized listing practices in rental markets
+                - 🏗️ Property Characteristics
+                    - Area: Median value is around 90m2, but mean one is much higher because of large outliers.
+                    - Bedrooms & Bathrooms: Median of 3 bedrooms and 2 bathrooms, aligning with small-family or shared-living use cases.
+                    - Floors: Median of 4 floors, presumably presenting a mix of low-rise apartments or townhouses.
+                - 💰 Rental Price Distribution
+                    - Median rental price is around 18 million VND
+                    - Lower quartile values are relatively small, reflecting luxury rentals, potential data inconsistencies or commercial properties
+        """, unsafe_allow_html=True)
 
         code_str = textwrap.dedent("""
             # Surface-level Inspection
@@ -465,7 +678,11 @@ elif page == "Static information":
     # 2. NA / NULL & MISSING VALUE DETECTION
     # ------------------------------------------------------------
     elif sub_section == "NaN / Null & Missing Value Detection":
-        st.write("### 🔍 NaN / Null & Missing Value Detection")
+        st.markdown("### 🔍 NaN / Null & Missing Value Detection", unsafe_allow_html=True)
+
+        st.markdown("""
+            <b>General Overview</b>: Identifier and location fields contain no missing values in both buying and rental datasets. Regarding property characteristics, area_m2, bedrooms, bathrooms and floors attributes show substantial missingness, especially in buying dataset. Rental properties shows a more complete presentation than the previous one, i.e. indicating better data quality with proper feature extraction. Notably, price data is mostly present, which makes sure the efficiency in modeling with restricted imputation.
+        """, unsafe_allow_html=True)
 
         code_str = textwrap.dedent("""
             na_null_summary = pd.DataFrame({
@@ -490,7 +707,7 @@ elif page == "Static information":
 
     # 3. DUPLICATED VALUE DETECTION
     elif sub_section == "Duplicated Value Detection":
-        st.write("### ♻️ Duplicated Value Detection")
+        st.markdown("### ♻️ Duplicated Value Detection", unsafe_allow_html=True)
 
         code_str = textwrap.dedent("""
             duplicated_summary = pd.DataFrame({
@@ -513,7 +730,7 @@ elif page == "Static information":
 
     # 4. CATEGORICAL COLUMN COUNTERS
     elif sub_section == "Categorical Column Counters":
-        st.write("### 🗂️ Categorical Column Counters")
+        st.markdown("### 🗂️ Categorical Column Counters", unsafe_allow_html=True)
 
         code_str = textwrap.dedent("""
             buying_cols = buying_df.columns
@@ -539,7 +756,17 @@ elif page == "Static information":
         st.dataframe(comparison_df)
 
     elif sub_section == "Lightweight Engineering":
-        st.write("**🛠️ Lightweight Engineering**")
+        st.markdown("### 🛠️ Lightweight Engineering", unsafe_allow_html=True)
+
+        st.markdown("""
+            Before conducting shallow visualisations, the raw datasets for house buying (`df_1`) and house rental (`df_2`) were cleaned and transformed to improve structure, consistency and reusability.
+
+            - Split composite `location` into `ward` and `province`
+            - Removed redundant columns (`location`, `detail_url`)
+            - Converted `timeline_hours` into calendar features (`day`, `month`, `year`)
+            - Applied identical transformations to buying and rental datasets
+        """, unsafe_allow_html=True)
+
         code_str = textwrap.dedent("""
             # ============================================================================================================================
             org_hb = df_1.copy()
@@ -626,10 +853,8 @@ elif page == "Static information":
 
 
     elif sub_section == "Shallow Visualisation":
-        st.write("**Implementation Cell: Shallow Visualisation**")
-        
-        st.title("Shallow EDA Visualisation App")
-        
+        st.markdown("### Implementation Cell: Shallow Visualisation", unsafe_allow_html=True)
+
         st.header("Area Distribution")
         svis = textwrap.dedent(""" 
             # Define lower and upper bound
@@ -874,6 +1099,10 @@ elif page == "Static information":
         plot_outliers(org_hr, ["price_million_vnd", "area_m2"])
 
 elif page == "Feature Engineering & Data Cleaning":
+    st.markdown("### 🧹 Feature Engineering & Data Cleaning 💨", unsafe_allow_html=True)
+
+    st.write("Prior to EDA section, those previously aggregated datasets were cleaned and engineered to ensure consistency and readiness. House prices were segmented into Low, Mid & High categories using interquartile thresholds. Province names were standardized and mapped to post-emergence administrative units to resolve geographic inconsistencies and observe the price fluctuation before and after emergence. Properly titles were preprocessed through normalization, Vietnamese tokenization, and stopword removal to support NLP analysis. The dataset was then filtered to representative provinces across major regions to reduce sparsity. Ultimately, multiple analysis-specific dataframes were created (price, location, size, timeline and text) to enable focused and efficient analysis.")
+    
     sub_section = st.selectbox(
         "Choose subsection:",
         [
@@ -886,7 +1115,7 @@ elif page == "Feature Engineering & Data Cleaning":
 
     if sub_section == "Price Segmentation":
         st.write("**Implementation Cell: Price Segmentation**")
-        price_seg_code = '''
+        price_seg_code = textwrap.dedent('''
             # Calculate quantiles
             q1 = org_hb["price_million_vnd"].quantile(0.25)
             q3 = org_hb["price_million_vnd"].quantile(0.75)
@@ -903,7 +1132,7 @@ elif page == "Feature Engineering & Data Cleaning":
 
             # Check distribution
             print(org_hb["price_segment"].value_counts())
-        '''
+        ''')
         st.code(price_seg_code, language="python")
         
         # Check distribution
@@ -911,7 +1140,7 @@ elif page == "Feature Engineering & Data Cleaning":
 
     elif sub_section == "Province Lists":
         st.write("**Implementation Cell: Province Lists**")
-        province_lists_code = '''
+        province_lists_code = textwrap.dedent('''
             # Define selective samples
             south_sample = ["Hồ Chí Minh", "Bình Dương", "Bà Rịa Vũng Tàu", "Đồng Nai", "Bình Phước", "Cần Thơ", "Sóc Trăng", "Hậu Giang"]
             central_coast_sample = ["Đà Nẵng", "Huế", "Quảng Nam", "Bình Định", "Gia Lai"]
@@ -934,12 +1163,12 @@ elif page == "Feature Engineering & Data Cleaning":
             # Apply mapping
             org_hb["province_after_emergence"] = org_hb["province"].apply(map_old_new_provinces)
             org_hr["province_after_emergence"] = org_hr["province"].apply(map_old_new_provinces)
-        '''
+        ''')
         st.code(province_lists_code, language="python")
 
     elif sub_section == "Text Preprocessing Before Analysis":
         st.write("**Implementation Cell: Text Preprocessing**")
-        text_preprocess_code = '''
+        text_preprocess_code = textwrap.dedent('''
             # Load stopwords
             path = Path("../workarounds/preprocessing/nlp/vietnamese-stopwords-edited.txt")
             with path.open(encoding="utf-8") as f:
@@ -956,12 +1185,12 @@ elif page == "Feature Engineering & Data Cleaning":
             # Apply preprocessing
             org_hb["cleaned_title"] = org_hb["title"].apply(preprocess_title)
             org_hr["cleaned_title"] = org_hr["title"].apply(preprocess_title)
-        '''
+        ''')
         st.code(text_preprocess_code, language="python")
 
     elif sub_section == "Feature Aggregation":
         st.write("**Implementation Cell: Feature Aggregation**")
-        feature_agg_code = '''
+        feature_agg_code = textwrap.dedent('''
             # Location Dataframe
             hb_location = org_hb_filtered[["id", "ward", "province", "area_m2", "price_million_vnd", "bedrooms", "bathrooms", "floors", "frontage"]]
 
@@ -983,11 +1212,73 @@ elif page == "Feature Engineering & Data Cleaning":
             hr_size = org_hr_filtered[["id", "area_m2", "bedrooms", "bathrooms", "floors"]]
             hr_timeline = org_hr_filtered[["id", "day", "month", "year", "price_million_vnd", "ward", "province", "area_m2"]]
             hr_text = org_hr_filtered[["id", "title", "cleaned_title"]]
-        '''
+        ''')
         st.code(feature_agg_code, language="python")
 
 
 elif page == "Exploratory Data Analysis (Discussion)":
+    st.markdown("### 📊 Exploratory Data Analysis (EDA) - Indepth Discussion 📉", unsafe_allow_html=True)
+
+    st.markdown("""
+        This Exploratory Data Analysis is designed to systematically investigate patterns, behaviours and structural differences within the buying and rental real estate datasets. The analysis is organized into three main tasks, each addressing a distinct analytical objective while remaining consistent in methodology and interpretation.
+
+        <b> Brief overview on task classification: </b> <br>
+
+        <i> 🛰️ Task 1: Lunar Shipwreck Of Predestined Whereabouts (Buying Market Analysis) </i> <br>
+
+        This task concentrates on understanding the property buying market. identifying key price drivers, spatial patterns, and structural attributes that influence purchasing decisions. <br>
+
+        Key Sections:
+        1. <b> Location-based Insights </b>
+            - Price variation across provinces, districts / wards
+            - Urban VS. Country-side market behaviour.
+        2. <b> Price Analysis </b>
+        - Distribution, skewness, and outliers
+        - Price segmentation and affordability ranges
+        3. <b> House Size & Layout Interpretation </b>
+            - Area, bedrooms, bathrooms, and floors
+            - Regular configurations for family-sized housing
+        4. <b> Timeline Insights (Time Series) </b>
+            - Listing duration and posting trends
+            - Market activity over time
+        5. <b> NLP Sentiment & Text Pattern Analysis </b>
+            - Listing title characteristics
+            - Signal patterns of urgency, promotion, or negotiation intention
+        6. <b> Pre-emergence vs. Post-emergence Comparison </b>
+            - Structural and price differences before and after province emergence influence
+            - Behavioural changes in listings and pricing patterns
+
+        <i> 🏴‍☠️ Task 2: Stock Rental Property Market – Sneaky Goblin’s Obsession Towards Treasures (Rental Market Analysis) </i> <br>
+
+        This task examines the rental housing market, emphasizing flexibility, pricing dynamics, and features aligned with short- to mid-term livings. <br>
+
+        Key Sections:
+        1. <b> Location-based Insights </b>
+            - Rental concentration by region
+            - Urban demand and accessibility effects
+        2. <b> Rental Price Structure </b>
+            - Price dispersion and affordability tiers
+            - Presence of budget vs. luxury rentals
+        3. <b> House Features & Layout Interpretation </b>
+            - Area and room configurations
+            - Suitability for individuals, families, or shared living
+        4. <b> Date / Listing Dynamics </b>
+            - Listing upload frequency per month
+            - Seasonal or cyclical rental behavior
+        5. <b> Mobility Demand Indicators </b>
+            - Sentimental perception suggesting furnished status and compact layouts
+            - The decision for shor-term or high mobility over time
+
+        <i> 🧭 Task 3: Mobility Over Long-term Residency? (Cross-market Comparison) </i><br>
+
+        This task combines together insights from both datasets to explore behavioral differences between buyers and renters, and conclude the mainstream tendency. <br>
+
+        <b>Focus Areas:</b>
+        - Structural and price contrasts between buying and rental markets
+        - Indicators of long-term settlement vs. mobility-oriented living
+        - Market segmentation implications for modeling and prediction
+    """, unsafe_allow_html=True)
+
     sub_section = st.selectbox(
         "Choose subsection:",
         [
@@ -1514,7 +1805,7 @@ elif page == "Exploratory Data Analysis (Discussion)":
         plot_median_price_emergence_t1(filtered_data)
 
     elif sub_section == "Stock Rental Property Market":
-        st.write("**Task 2: Stock Rental Property Market**")
+        st.markdown("#### Task 2: Stock Rental Property Market – Sneaky Goblin’s Obsession Towards Treasures ####")
 
         st.header("1. Location-based Insights")
         code_str = textwrap.dedent("""
@@ -1894,13 +2185,90 @@ elif page == "Exploratory Data Analysis (Discussion)":
 
 
     elif sub_section == "Mobility Over Long-term Residency":
-        st.write("**Task 3: Mobility Over Long-term Residency**")
-        st.markdown("Here, we discuss the analysis related to mobility trends.")
+        st.markdown("### Task 3: Mobility Over Long-term Residency?", unsafe_allow_html=True)
+
+        st.markdown("#### 🏡 Real Estate Perspectives 🏙️", unsafe_allow_html=True)
+
+        st.markdown("""
+            According to recent interviews from VNExpress, cited in the article "Rental Demand Increases As Young People Cannot Afford To Buy Houses", each primary-tier house in cities has a minimum price up to 3 billion VND, thus buyers need to make a loan at least 2 billion VND for the upcoming 15 - 25 years, additionally strip out 60% of the salary to cover the loss. If that happens, most people would prefer to rent a house periodically, whose remaining budgets would be used for skill acquisition, retirement, etc. 
+
+            This scenario was also reflected in recent research from VARS showing that over 60% of the young generation under 35 in major provinces (Ha Noi, Da Nang, Ho Chi Minh City, ...) consider renting as the optimal resolution to alleviate financial burdens amidst fluctuating real estate prices. Similarly, survey results from BatDongSan website reveal that the trend of rental properties increased by nearly 22% in 2024. Especially the group of customers aged 25-34 who sought most rentals with approximately 62%, and even the high-income one earning a monthly budget of  21-40 million VND also had a seeking rate of 42% last year.
+
+            This concern varies with contextual explanations. Notably, VARS describes that high housing prices and the lack of interest rate incentives are barriers preventing many people from buying homes, pushing them into the rental market. Nevertheless, apartment prices over the past few years in large cities have abruptly increased from 34% to 72%, while the average income of Vietnam citizens slightly increased by about 6 - 10% per year and remains relatively low (from 6.8 - 8.9 million VND per month). On average, borrowing 1.5 - 2 billion VND to buy a house requires monthly payments of principal and interest ranging from 25 - 60 million VND, which is 5 - 10 times higher than rental costs. Furthermore, BatDongSan states that over 41% of renters could not afford to buy, do not want to be tied down by a mortgage, and prefer inexpensive rental costs over monthly interest payments. Based on the estimated average GDP per capita of approximately 9.5 million VND per month (2024), a young person (aged 25 - 40) would need to accumulate at around 3 billion VND (assuming a deposit interest rate of 4.5% per year) for 26 years to afford a 60-square-meter apartment.
+
+            One remarkable shift has been observed in the younger group, as One Mount Group noticed that not only the core group is currently aged 35 - 44, but also the 18 - 34 generation also accounts for a relative proportion, with over 27% of home purchases. Another 2023 survey by PropertyGuru also points to a reversal in house buying trend by age group: the 22 - 26 age group increased from 13% in 2021 to 19% in 2023, the 27 - 30 age group increased from 39% to over 42%, while older age groups gradually declined.
+            In the context of culture, the young generation feels the sense of being homeownership leaves marks in their life: financial stability without extraneous support from families and friends, the need for privacies - workspaces, marriages & kids, as homeownership is widely associated with family formation, long-term residency, and a secure environment for upbringing children. Studies show that young adults perceive having real estate assets as providing a safer and more suitable space for family life, upgrading social status and enabling independence over domestic arrangements (Napiórkowska-Baryła et al., 2024). Homeownership in East Asian countries (particularly China) continues to carry strong cultural significance as a prerequisite for marriage, permanence and readiness for family responsibilities, even as younger generations adopt more flexible workarounds such as renting before buying (often seen in many social properties in Vietnam) or co-owning with partners (Xu & Sun, 2024). Moreover, this trend is linked to access to better educational opportunities for their youngsters and deeper senses of belonging, reinforcing its role as a foundation for long-term family planning among newly adults (Chi Jin et al., 2025).
+
+            In conclusion, the housing demand of Vietnamese, largely young generation, is increasingly categorized by a mixed orientation toward mobility and long-term residency rather than a binary (True / False) preference for renting or owning. Persistent affordability constraints, insufficient incomes, and mortgage burdens have reframed renting as a rational and flexible approach to support labor mobility, skill accumulation, and financial resilience during early years, whereas homeownership continues to retain as a long-term aspiration, as rooted by cultural expectations involving family formation, social status and permanence. Substantially, many young adults learn renting-phased trajectory during periods of career starting, while gradually preparing for settlement once previous personal aspects are stabilized. This evolving pattern suggests that mobility and long-term residency are not opposing demands but sequential and complementary stages within contemporary life, reflecting both structural economic pressures and enduring cultural values in Vietnam's general urban housing landscape.
+
+            <b> References </b>
+
+            - Duong, P. (2025). *Why are young Vietnamese buying more homes despite high prices?*. VNExpress. https://vnexpress.net/vi-sao-nguoi-tre-viet-tang-mua-nha-du-gia-cao-4939902.html
+            - Uyen, P. (2025). *Rental demand increases as young people cannot afford to buy houses*. VNExpress. https://vnexpress.net/nhu-cau-thue-tang-khi-nguoi-tre-khong-mua-noi-nha-4870651.html
+            - Nur Imam Saifuloh, Anas Iswanto Anwar. (2023). *Preferences of the Young Generation toward Housing: Is The Opportunity for Islamic Banks?*. Proceeding of International Conference on Islamic Philantrophy, (1)70-80. https://doi.org/10.24090/icip.v1i1.304.
+            - Chi Jin, Bo Li, Sylvia J., Harry, J. & Peter, J. (2025). *What drives young talents’ home-buying intentions? Evidence from China’s first-tier cities*. Journal of Housing and the Built Environment. Springer. https://doi.org/10.1007/s10901-025-10259-1
+            - Wenhua Xu, & Jiangmin Sun. (2024). *The Housing Perspective of the New Generation Dual-Income Families: Changes in Young People’s Attitudes Toward Marriage and Homeownership*. Insights in Social Science, 2(1), 1–9. Retrieved from https://www.brilliance-pub.com/ISS/article/view/50
+            - Napiórkowska-Baryła, Agnieszka & Świdyńska, Natalia & Witkowska-Dąbrowska, Mirosława. (2024). *Owning versus Renting a Home—Prospects for Generation Z*. Sustainability. 16(11), 4715. https://doi.org/10.3390/su16114715
+        """, unsafe_allow_html=True)
+
+        st.markdown("#### 💽 Empirical Results 🗜️", unsafe_allow_html=True)
+
+        st.markdown("""
+            <h3 style="text-align: center; font-weight: bold;">
+            -------------- COMING SOON --------------
+            </h3>
+        """, unsafe_allow_html=True)
+
+elif page == "Savestates":
+    st.markdown("### 📥 Savestates 🔖", unsafe_allow_html=True)
+    
+    st.write("""
+        To ensure reproducibility (any adjustments to the dataset or target visualisations) and proper output management, all generated plots are stored in a Python dictionary mapping descriptive figures to objects. A dedicated save method iterates over this mapping and exports each figure to a predefined file directory, which also supports both Matplotlib and Plotply figures and writes under more specified formats (e.g., PNG), creating the target directory if not already existed.
+    """)
+
+    st.markdown("#### All-in-one Visualisation Capture", unsafe_allow_html=True)
+
+    code_str = textwrap.dedent("""
+        def save_all_figs(fig_dict, folder="reports/figures", formats=("png",)):
+            # Resolve target folder correctly
+            root = Path.cwd().resolve().parent          # catalyst/
+            target_folder = root / folder               # catalyst/reports/figures
+            target_folder.mkdir(parents=True, exist_ok=True)
+
+            for name, fig in fig_dict.items():
+                # Build base filepath in the resolved target folder
+                for fmt in formats:
+                    filepath = target_folder / f"{name}.{fmt}"
+                    # Matplotlib
+                    if isinstance(fig, matplotlib.figure.Figure):
+                        fig.savefig(filepath, bbox_inches="tight")
+                    # Plotly
+                    elif isinstance(fig, go.Figure):
+                        pio.write_image(fig, filepath)
+                    else:
+                        raise NotImplementedError(
+                            f"Invalid figure type for '{name}'. "
+                            "Expected Matplotlib Figure or Plotly Figure."
+                        )
+                print(f"Saved {name}: {', '.join(formats)}")
+    """)
+
+    st.code(code_str, language = "python")
+
+    code_str_2 = textwrap.dedent("save_all_figs(plot_all)")
+
+    st.code(code_str_2, language = "python")
 
 elif page == "Acknowledgement":
-    st.markdown("### Acknowledgement")
-    st.write("Here, we acknowledge contributions from various sources...")
+    st.markdown("### ❌ Acknowledgement 🧩", unsafe_allow_html=True)
+    st.write("This exploratory data analysis (EDA) was established as an initial step toward understanding the structure, characterisitcs (potential patterns behind house properties), and challenges of real estate buying and rental datasets. The availability of dataset provides rich and diverse attributes covering property structure, pricing, location and temporal information.")
+    st.write("Special appreciation is given to the scraping procedure, which takes as much time as other familiar processes plus innumerable attempts to obtain near comprehensive results. Furthermore, platform processes like BatDongSanVN have enabled access to large-scale, real-world housing listings, making it possible to perceive realistic market behaviours, user preferences and pricing pattern recognition. Indepth analysis also benefited from standard data science practices, open-source analytical tools, as well as software engineering principles that supported efficient data inspection, visualisation and statistical summary.")
 
 elif page == "Conclusion & Next Steps":
-    st.markdown("### Conclusion & Next Steps")
-    st.write("In this section, we summarize the findings and outline future steps.")
+    st.markdown("### Conclusion & Next Steps", unsafe_allow_html=True)
+    st.markdown("""
+             This EDA provides a comprehensive overview of both buying and rental real estate datasets, revealing meaningful insights into property characteristics, price behaviour and data quality issues. Based on the assumptions from this notebook, the following procedures are taken into implementation:
+            - <b>🔧 Data Preprocessing</b>
+            - <b> 📈 Machine Learning Injection 🧪</b>
+            - <b> 🔬 Evaluation & Validation 🗳️ </b>
+             """, unsafe_allow_html=True)
